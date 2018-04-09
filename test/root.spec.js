@@ -1,9 +1,8 @@
 
 const supertest = require('supertest');
 const app = require('../src/index.js');
-const creation = require('./pivotal-create.json');
 
-describe('pivotal URL path', () => {
+describe('root URL path', () => {
 
   let request = null;
   let server = null;
@@ -18,10 +17,10 @@ describe('pivotal URL path', () => {
   });
 
   test('should respond with Pivotal text on GET', async () => {
-    const response = await request.get('/pivotal');
+    const response = await request.get('/');
     expect(response.status).toEqual(200);
-    expect(response.type).toEqual('text/plain');
-    expect(response.text).toEqual('Pivotal Stuff');
+    expect(response.type).toEqual('text/html');
+    expect(response.text).toEqual('<h1>Hello World</h1>');
 
     return response;
   });
