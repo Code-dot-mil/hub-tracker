@@ -1,0 +1,166 @@
+{
+  "kind": "story_create_activity",
+  "guid": "2160940_123",
+  "project_version": 123,
+  "message": "Jordan Kasper added this feature",
+  "highlight": "added",
+  "changes": [
+    {
+      "kind": "story",
+      "change_type": "create",
+      "id": 156572093,
+      "new_values": {
+        "id": 156572093,
+        "project_id": 2160940,
+        "name": "Test story to see pivotal webhook data.",
+        "description": "This is the description.",
+        "story_type": "feature",
+        "current_state": "unscheduled",
+        "estimate": 1,
+        "requested_by_id": 3040744,
+        "owned_by_id": 3040744,
+        "owner_ids": [
+          3040744
+        ],
+        "label_ids": [
+          19928241
+        ],
+        "follower_ids": [
+
+        ],
+        "created_at": 1523023201000,
+        "updated_at": 1523023201000,
+        "before_id": 156521571,
+        "after_id": 156518113,
+        "blocked_story_ids": [
+
+        ],
+        "labels": [
+          "development"
+        ]
+      },
+      "name": "Test story to see pivotal webhook data.",
+      "story_type": "feature"
+    },
+    {
+      "kind": "task",
+      "change_type": "create",
+      "id": 61089412,
+      "new_values": {
+        "id": 61089412,
+        "story_id": 156572093,
+        "description": "do the thing",
+        "complete": false,
+        "position": 1,
+        "created_at": 1523023201000,
+        "updated_at": 1523023201000
+      }
+    },
+    {
+      "kind": "label",
+      "change_type": "update",
+      "id": 19928241,
+      "original_values": {
+        "counts": {
+          "number_of_zero_point_stories_by_state": {
+            "accepted": 0,
+            "started": 0,
+            "finished": 0,
+            "unstarted": 0,
+            "planned": 0,
+            "delivered": 0,
+            "unscheduled": 0,
+            "rejected": 0,
+            "kind": "counts_by_story_state"
+          },
+          "sum_of_story_estimates_by_state": {
+            "accepted": 0,
+            "started": 0,
+            "finished": 0,
+            "unstarted": 0,
+            "planned": 0,
+            "delivered": 0,
+            "unscheduled": 0,
+            "rejected": 0,
+            "kind": "counts_by_story_state"
+          },
+          "number_of_stories_by_state": {
+            "accepted": 0,
+            "started": 0,
+            "finished": 0,
+            "unstarted": 0,
+            "planned": 0,
+            "delivered": 0,
+            "unscheduled": 0,
+            "rejected": 0,
+            "kind": "counts_by_story_state"
+          },
+          "kind": "story_counts"
+        }
+      },
+      "new_values": {
+        "counts": {
+          "number_of_zero_point_stories_by_state": {
+            "accepted": 0,
+            "started": 0,
+            "finished": 0,
+            "unstarted": 0,
+            "planned": 0,
+            "delivered": 0,
+            "unscheduled": 0,
+            "rejected": 0,
+            "kind": "counts_by_story_state"
+          },
+          "sum_of_story_estimates_by_state": {
+            "accepted": 0,
+            "started": 0,
+            "finished": 0,
+            "unstarted": 0,
+            "planned": 0,
+            "delivered": 0,
+            "unscheduled": 1,
+            "rejected": 0,
+            "kind": "counts_by_story_state"
+          },
+          "number_of_stories_by_state": {
+            "accepted": 0,
+            "started": 0,
+            "finished": 0,
+            "unstarted": 0,
+            "planned": 0,
+            "delivered": 0,
+            "unscheduled": 1,
+            "rejected": 0,
+            "kind": "counts_by_story_state"
+          },
+          "kind": "story_counts"
+        }
+      },
+      "name": "development"
+    }
+  ],
+  "primary_resources": [
+    {
+      "kind": "story",
+      "id": 156572093,
+      "name": "Test story to see pivotal webhook data.",
+      "story_type": "feature",
+      "url": "https://www.pivotaltracker.com/story/show/156572093"
+    }
+  ],
+  "secondary_resources": [
+
+  ],
+  "project": {
+    "kind": "project",
+    "id": 2160940,
+    "name": "AT-AT Development"
+  },
+  "performed_by": {
+    "kind": "person",
+    "id": 3040744,
+    "name": "Jordan Kasper",
+    "initials": "jk"
+  },
+  "occurred_at": 1523023202000
+}

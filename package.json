@@ -1,0 +1,30 @@
+{
+  "name": "hub-tracker",
+  "version": "0.1.0",
+  "description": "A simple sync between Pivotal Tracker and GitHub issues",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest ./test/*.spec.js --forceExit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Code-dot-mil/hub-tracker.git"
+  },
+  "author": "Jordan Kasper (@jordangov)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Code-dot-mil/hub-tracker/issues"
+  },
+  "homepage": "https://github.com/Code-dot-mil/hub-tracker#readme",
+  "devDependencies": {
+    "jest": "^22.4.3",
+    "supertest": "^3.0.0"
+  },
+  "dependencies": {
+    "koa": "^2.5.0",
+    "request": "^2.85.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
