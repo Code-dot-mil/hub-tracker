@@ -1,9 +1,10 @@
 
 const supertest = require('supertest');
+const expect = require('chai').expect;
 const app = require('../src/index.js');
 const creation = require('./pivotal-create.json');
 
-describe('pivotal URL path', () => {
+describe('pivotal webhook', () => {
 
   let request = null;
   let server = null;
@@ -17,11 +18,14 @@ describe('pivotal URL path', () => {
     server.close(done);
   });
 
-  test('should respond with Pivotal text on GET', async () => {
-    const response = await request.get('/pivotal');
-    expect(response.status).toEqual(200);
-    expect(response.type).toEqual('text/plain');
-    expect(response.text).toEqual('Pivotal Stuff');
+  it('should respond with text on story creation', async () => {
+    const response = await request
+      .post('/pivotal')
+      .send(creation);
+    expect(response.status).to.equal(200);
+    expect(response.type).to.equal('application/json');
+    expect(response.body).to.be.a('object');
+    expect(response.body.msg).to.equal('Added new GH issue');
 
     return response;
   });

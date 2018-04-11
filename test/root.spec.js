@@ -1,5 +1,6 @@
 
 const supertest = require('supertest');
+const expect = require('chai').expect;
 const app = require('../src/index.js');
 
 describe('root URL path', () => {
@@ -16,11 +17,11 @@ describe('root URL path', () => {
     server.close(done);
   });
 
-  test('should respond with Pivotal text on GET', async () => {
+  it('should respond with Pivotal text on GET', async () => {
     const response = await request.get('/');
-    expect(response.status).toEqual(200);
-    expect(response.type).toEqual('text/html');
-    expect(response.text).toEqual('<h1>Hello World</h1>');
+    expect(response.status).to.equal(200);
+    expect(response.type).to.equal('text/html');
+    expect(response.text).to.equal('<h1>Hello World</h1>');
 
     return response;
   });

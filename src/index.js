@@ -1,5 +1,6 @@
 
 const Koa = require('koa');
+const bodyParser = require('koa-bodyparser');
 const root = require('./root.js');
 const pivotal = require('./pivotal.js');
 
@@ -7,6 +8,7 @@ const PORT = 3000;
 
 const app = new Koa();
 
+app.use(bodyParser());
 
 app
   .use(root.routes())
