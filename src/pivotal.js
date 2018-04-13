@@ -6,6 +6,8 @@ const router = new Router({
   prefix: '/pivotal'
 });
 
+const OAUTH_TOKEN = process.env.GH_OAUTH_TOKEN;
+
 router.use(async (ctx, next) => {
   if (!ctx.request.body || typeof(ctx.request.body) !== 'object') {
     ctx.status = 400;
@@ -48,7 +50,9 @@ const handlers = {
 
     const response = await request({
       method: 'POST',
-      // TODO: add API key header
+      headers: {
+        Authorization: `token ${OAUTH_TOKEN}`
+      },
       uri: 'https://api.github.com/repos/dod-ccpo/atat/issues',
       body: {
         title: creation.new_values.name,
