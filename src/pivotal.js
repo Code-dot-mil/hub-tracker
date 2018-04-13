@@ -28,17 +28,16 @@ router.use(async (ctx, next) => {
 });
 
 router.post('/', async (ctx) => {
+  // If get to here, we'll always return 200 since the webhook did work
+  // even if the GitHub connection doesn't
+  ctx.status = 200;
+  ctx.type = 'json';
 
   try {
     const msg = await handlers[ctx.request.body.kind](ctx.request.body)
-    console.log('request handled...', msg);
-    ctx.status = 200;
-    ctx.type = 'json';
     ctx.body = { msg };
   } catch(err) {
     console.error(`Error from GitHub API for ${ctx.request.body.kind}`, err);
-    ctx.status = 200;
-    ctx.type = 'json';
     ctx.body = { msg: 'Error while handling Pivotal webhook', err };
   }
 });
@@ -49,6 +48,7 @@ const handlers = {
 
     const response = await request({
       method: 'POST',
+      // TODO: add API key header
       uri: 'https://api.github.com/repos/dod-ccpo/atat/issues',
       body: {
         title: creation.new_values.name,

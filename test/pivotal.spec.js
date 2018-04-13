@@ -44,8 +44,8 @@ describe('pivotal webhook', () => {
       .reply(200, {
         id: 13,
         state: 'open',
-        title: 'Found a bug',
-        body: 'I\'m having a problem with this.',
+        title: creation.changes[0].new_values.name,
+        body: creation.changes[0].new_values.description,
         user: {
           id: 27,
           login: 'octocat'
