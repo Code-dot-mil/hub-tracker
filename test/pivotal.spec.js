@@ -40,7 +40,7 @@ describe('pivotal webhook', () => {
 
   it('should respond with text on story creation', async () => {
     nock('https://api.github.com')
-      .post('/repos/dod-ccpo/atat/issues')
+      .post('/repos/dod-ccpo/at-at/issues')
       .reply(200, {
         id: 13,
         state: 'open',

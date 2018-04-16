@@ -54,7 +54,7 @@ const handlers = {
         'User-Agent': 'atat-bot',
         Authorization: `token ${OAUTH_TOKEN}`
       },
-      uri: 'https://api.github.com/repos/dod-ccpo/atat/issues',
+      uri: 'https://api.github.com/repos/dod-ccpo/at-at/issues',
       body: {
         title: creation.new_values.name,
         body: creation.new_values.description
