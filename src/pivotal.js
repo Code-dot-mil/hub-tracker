@@ -51,6 +51,7 @@ const handlers = {
     const response = await request({
       method: 'POST',
       headers: {
+        'User-Agent': 'atat-bot',
         Authorization: `token ${OAUTH_TOKEN}`
       },
       uri: 'https://api.github.com/repos/dod-ccpo/atat/issues',
