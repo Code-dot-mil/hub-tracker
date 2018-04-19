@@ -58,7 +58,7 @@ const handlers = {
       uri: `https://api.github.com/repos/${OWNER_REPO}/issues`,
       body: {
         title: creation.new_values.name,
-        body: `creation.new_values.description\n\n[PT [#${creation.new_values.id}](${data.primary_resources[0].url})]`
+        body: `${creation.new_values.description}\n\n[PT [#${creation.new_values.id}](${data.primary_resources[0].url})]`
       },
       json: true
     });
