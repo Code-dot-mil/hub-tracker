@@ -7,6 +7,7 @@ const router = new Router({
 });
 
 const OAUTH_TOKEN = process.env.GH_OAUTH_TOKEN;
+const OWNER_REPO = process.env.GH_OWNER_REPO;
 
 router.use(async (ctx, next) => {
   if (!ctx.request.body || typeof(ctx.request.body) !== 'object') {
@@ -51,10 +52,10 @@ const handlers = {
     const response = await request({
       method: 'POST',
       headers: {
-        'User-Agent': 'atat-bot',
+        'User-Agent': 'hub-tracker',
         Authorization: `token ${OAUTH_TOKEN}`
       },
-      uri: 'https://api.github.com/repos/dod-ccpo/at-at/issues',
+      uri: `https://api.github.com/repos/${OWNER_REPO}/issues`,
       body: {
         title: creation.new_values.name,
         body: `creation.new_values.description\n\n[PT [#${creation.new_values.id}](${data.primary_resources[0].url})]`
