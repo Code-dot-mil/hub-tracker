@@ -3,6 +3,7 @@ const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const root = require('./root.js');
 const pivotal = require('./pivotal.js');
+const github = require('./github.js');
 
 const PORT = 3000;
 
@@ -12,7 +13,8 @@ app.use(bodyParser());
 
 app
   .use(root.routes())
-  .use(pivotal.routes());
+  .use(pivotal.routes())
+  .use(github.routes());
 
 
 if (require.main === module) {
