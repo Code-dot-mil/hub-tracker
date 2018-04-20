@@ -6,8 +6,8 @@ const router = new Router({
   prefix: '/github'
 });
 
-const OAUTH_TOKEN = process.env.PT_OAUTH_TOKEN;
-const BOARD_ID = process.env.PT_BOARD_ID;
+const API_TOKEN = process.env.PT_API_TOKEN;
+const PROJECT_ID = process.env.PT_PROJECT_ID;
 
 router.use(async (ctx, next) => {
   if (!ctx.request.body || typeof(ctx.request.body) !== 'object') {
@@ -48,9 +48,22 @@ router.post('/', async (ctx) => {
 
 const handlers = {
   issues_opened: async (data) => {
-    // TODO: finish this
+    const response = await request({
+      method: 'POST',
+      headers: {
+        'User-Agent': 'hub-tracker',
+        'X-TrackerToken': API_TOKEN,
+        'Content-Type': 'application/json'
+      },
+      uri: `https://www.pivotaltracker.com/services/v5/projects/${PROJECT_ID}/stories`,
+      body: {
+        name: data.issue.title,
+        description: `${data.issue.body}\n\n[GH [#${data.issue.number}](${data.issue.url})]`
+      },
+      json: true
+    });
 
-    return `Added new Pivotal story: ID=13`;
+    return `Added new Pivotal story: ID=${response.id}`;
   }
 };
 

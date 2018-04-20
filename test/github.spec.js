@@ -40,20 +40,22 @@ describe('github webhook', () => {
   });
 
   it('should respond with text on issue creation', async () => {
-    // nock('https://api.github.com')
-    //   .post('/repos/dod-ccpo/at-at/issues')
-    //   .reply(200, {
-    //     id: 13,
-    //     state: 'open',
-    //     title: creation.changes[0].new_values.name,
-    //     body: creation.changes[0].new_values.description,
-    //     user: {
-    //       id: 27,
-    //       login: 'octocat'
-    //     },
-    //     created_at: '2018-04-10T13:33:48Z',
-    //     updated_at: '2018-04-10T13:33:48Z'
-    //   });
+    nock('https://www.pivotaltracker.com')
+      .post('/services/v5/projects/2160940/stories')
+      .reply(200, {
+        "created_at": "2018-04-17T12:00:00Z",
+        "current_state": "unscheduled",
+        "id": 27,
+        "kind": "story",
+        "labels": [],
+        "name": "Do all the things",
+        "owner_ids": [],
+        "project_id": 99,
+        "requested_by_id": 101,
+        "story_type": "feature",
+        "updated_at": "2018-04-17T12:00:00Z",
+        "url": "http://localhost/story/show/2300"
+      });
 
     const response = await request
       .post('/github')
@@ -63,7 +65,7 @@ describe('github webhook', () => {
     expect(response.status).to.equal(200);
     expect(response.type).to.equal('application/json');
     expect(response.body).to.be.a('object');
-    expect(response.body.msg).to.equal('Added new Pivotal story: ID=13');
+    expect(response.body.msg).to.equal('Added new Pivotal story: ID=27');
 
     return response;
   });
