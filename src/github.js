@@ -48,6 +48,8 @@ router.post('/', async (ctx) => {
 
 const handlers = {
   issues_opened: async (data) => {
+    console.log(`Creating PT story for GH issue ${data.issue.number}`);
+
     const response = await request({
       method: 'POST',
       headers: {

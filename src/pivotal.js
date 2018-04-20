@@ -49,6 +49,8 @@ const handlers = {
   story_create_activity: async (data) => {
     const creation = data.changes.filter((change) => change.change_type === 'create')[0];
 
+    console.log(`Creating GH issue for PT story ${creation.new_values.id}`);
+
     const response = await request({
       method: 'POST',
       headers: {
