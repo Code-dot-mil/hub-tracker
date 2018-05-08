@@ -1,0 +1,28 @@
+{
+  "kind":"story",
+  "id":156952053,
+  "created_at":"2018-04-20T14:01:12Z",
+  "updated_at":"2018-04-30T19:46:19Z",
+  "estimate":1,
+  "story_type":"feature",
+  "name":"PT<>GH: finishing a story in pivotal closes GH issue",
+  "description":"Testing description with links...\n\n[GH [#12345](https://github.com)]",
+  "current_state":"unscheduled",
+  "requested_by_id":3040744,
+  "url":"https://www.pivotaltracker.com/story/show/156952053",
+  "project_id":2160940,
+  "owner_ids":[
+    3040744
+  ],
+  "labels":[
+    {
+      "id":20002975,
+      "project_id":2160940,
+      "kind":"label",
+      "name":"pivotal-github-integration",
+      "created_at":"2018-04-26T14:17:30Z",
+      "updated_at":"2018-04-26T14:17:30Z"
+    }
+  ],
+  "owned_by_id":3040744
+}

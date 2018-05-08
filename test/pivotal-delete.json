@@ -1,0 +1,40 @@
+{
+  "kind":"story_delete_activity",
+  "guid":"2160940_1273",
+  "project_version":1273,
+  "message":"Jordan Kasper deleted this feature",
+  "highlight":"deleted",
+  "changes":[
+    {
+      "kind":"story",
+      "change_type":"delete",
+      "id":157198391,
+      "name":"test story for hub-tracker",
+      "story_type":"feature"
+    }
+  ],
+  "primary_resources":[
+    {
+      "kind":"story",
+      "id":157198391,
+      "name":"test story for hub-tracker",
+      "story_type":"feature",
+      "url":"https://www.pivotaltracker.com/story/show/157198391"
+    }
+  ],
+  "secondary_resources":[
+
+  ],
+  "project":{
+    "kind":"project",
+    "id":2160940,
+    "name":"AT-AT Development"
+  },
+  "performed_by":{
+    "kind":"person",
+    "id":3040744,
+    "name":"Jordan Kasper",
+    "initials":"jk"
+  },
+  "occurred_at":1525111564000
+}

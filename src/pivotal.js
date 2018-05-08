@@ -8,6 +8,8 @@ const router = new Router({
 
 const OAUTH_TOKEN = process.env.GH_OAUTH_TOKEN;
 const OWNER_REPO = process.env.GH_OWNER_REPO;
+const API_TOKEN = process.env.PT_API_TOKEN;
+const PROJECT_ID = process.env.PT_PROJECT_ID;
 
 router.use(async (ctx, next) => {
   if (!ctx.request.body || typeof(ctx.request.body) !== 'object') {
@@ -23,7 +25,7 @@ router.use(async (ctx, next) => {
   if (!handlers[ctx.request.body.kind] || typeof(handlers[ctx.request.body.kind]) !== 'function') {
     ctx.status = 200;
     ctx.type = 'text';
-    ctx.body = 'No handler for request kind';
+    ctx.body = `No handler for request kind: ${ctx.request.body.kind}`;
     console.log(`No handler for request kind: ${ctx.request.body.kind && ctx.request.body.kind.substr(0,100)}`);
     return;
   }
@@ -38,7 +40,12 @@ router.post('/', async (ctx) => {
 
   try {
     const msg = await handlers[ctx.request.body.kind](ctx.request.body)
-    ctx.body = { msg };
+    if (msg === null) {
+      console.log(`No handler for request type: ${ctx.request.body.changes[0] && ctx.request.body.changes[0].change_type}`);
+      ctx.body = `No handler for request type: ${ctx.request.body.changes[0] && ctx.request.body.changes[0].change_type}`;
+    } else {
+      ctx.body = { msg };
+    }
   } catch(err) {
     console.error(`Error from GitHub API for ${ctx.request.body.kind}`, err);
     ctx.body = { msg: 'Error while handling Pivotal webhook', err };
@@ -46,27 +53,64 @@ router.post('/', async (ctx) => {
 });
 
 const handlers = {
-  story_create_activity: async (data) => {
-    const creation = data.changes.filter((change) => change.change_type === 'create')[0];
 
-    console.log(`Creating GH issue for PT story ${creation.new_values.id}`);
+  story_update_activity: async (data) => {
+    const update = data.changes.filter((change) => change.change_type === 'update')[0];
 
-    const response = await request({
-      method: 'POST',
-      headers: {
-        'User-Agent': 'hub-tracker',
-        Authorization: `token ${OAUTH_TOKEN}`
-      },
-      uri: `https://api.github.com/repos/${OWNER_REPO}/issues`,
-      body: {
-        title: creation.new_values.name,
-        body: `${creation.new_values.description}\n\n[PT [#${creation.new_values.id}](${data.primary_resources[0].url})]`
-      },
-      json: true
-    });
+    if (update.new_values.current_state && update.new_values.current_state === 'finished') {
+      console.log(`Closing GH issue for PT story ${update.id}`);
 
-    return `Added new GH issue: ID=${response.id} TS=${response.created_at}`;
+      // TODO: remove this... for now we'll just log the event.
+      return `GH issue commented and closed: ID=???`;
+
+      // const ptStory = await request({
+      //   method: 'GET',
+      //   headers: {
+      //     'User-Agent': 'hub-tracker',
+      //     'X-TrackerToken': API_TOKEN,
+      //     'Content-Type': 'application/json'
+      //   },
+      //   uri: `https://www.pivotaltracker.com/services/v5/projects/${PROJECT_ID}/stories/${update.id}`,
+      //   json: true
+      // });
+      //
+      // const ghIssueId = ptStory.description.match(/\[GH \[#([0-9]+)\]/);
+      // if (ghIssueId) {
+      //   const ghIssueComment = await request({
+      //     method: 'POST',
+      //     headers: {
+      //       'User-Agent': 'hub-tracker',
+      //       Authorization: `token ${OAUTH_TOKEN}`
+      //     },
+      //     uri: `https://api.github.com/repos/${OWNER_REPO}/issues/${ghIssueId[1]}/comments`,
+      //     body: {
+      //       body: `Issue marked complete in Pivotal Tracker [#${update.id}]`
+      //     },
+      //     json: true
+      //   });
+      //
+      //   const ghIssueClose = await request({
+      //     method: 'PATCH',
+      //     headers: {
+      //       'User-Agent': 'hub-tracker',
+      //       Authorization: `token ${OAUTH_TOKEN}`
+      //     },
+      //     uri: `https://api.github.com/repos/${OWNER_REPO}/issues/${ghIssueId[1]}/`,
+      //     body: {
+      //       state: 'closed'
+      //     },
+      //     json: true
+      //   });
+      //
+      //   return `GH issue commented and closed: ID=${ghIssueId[1]}`;
+      // } else {
+      //   return `Story has no GH issue associated`;
+      // }
+    }
+
+    return null;
   }
+
 };
 
 module.exports = router;
