@@ -60,7 +60,7 @@ const handlers = {
       uri: `https://www.pivotaltracker.com/services/v5/projects/${PROJECT_ID}/stories`,
       body: {
         name: data.issue.title,
-        description: `${data.issue.body}\n\n[GH [#${data.issue.number}](${data.issue.url})]`
+        description: `${data.issue.body}\n\n[GH [#${data.issue.number}](${data.issue.html_url})]`
       },
       json: true
     });
