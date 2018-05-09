@@ -8,7 +8,7 @@
     {
       "kind":"story",
       "change_type":"update",
-      "id":157198391,
+      "id":13,
       "original_values":{
         "current_state":"started",
         "updated_at":1525109155000
@@ -24,7 +24,7 @@
   "primary_resources":[
     {
       "kind":"story",
-      "id":157198391,
+      "id":13,
       "name":"test story for hub-tracker",
       "story_type":"feature",
       "url":"https://www.pivotaltracker.com/story/show/157198391"
@@ -36,7 +36,7 @@
   "project":{
     "kind":"project",
     "id":2160940,
-    "name":"AT-AT Development"
+    "name":"Foobar Development"
   },
   "performed_by":{
     "kind":"person",

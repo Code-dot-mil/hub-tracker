@@ -4,6 +4,10 @@ const nock = require('nock');
 const expect = require('chai').expect;
 const app = require('../src/index.js');
 const opened = require('./github-opened.json');
+const story = require('./pivotal-story.json');
+
+const PROJECT_ID = '1234';
+const OWNER_REPO = 'foo/bar';
 
 describe('github webhook', () => {
 
@@ -41,21 +45,8 @@ describe('github webhook', () => {
 
   it('should respond with text on issue creation', async () => {
     nock('https://www.pivotaltracker.com')
-      .post('/services/v5/projects/2160940/stories')
-      .reply(200, {
-        "created_at": "2018-04-17T12:00:00Z",
-        "current_state": "unscheduled",
-        "id": 27,
-        "kind": "story",
-        "labels": [],
-        "name": "Do all the things",
-        "owner_ids": [],
-        "project_id": 99,
-        "requested_by_id": 101,
-        "story_type": "feature",
-        "updated_at": "2018-04-17T12:00:00Z",
-        "url": "http://localhost/story/show/2300"
-      });
+      .post(`/services/v5/projects/${PROJECT_ID}/stories`)
+      .reply(200, story);
 
     const response = await request
       .post('/github')
@@ -65,7 +56,7 @@ describe('github webhook', () => {
     expect(response.status).to.equal(200);
     expect(response.type).to.equal('application/json');
     expect(response.body).to.be.a('object');
-    expect(response.body.msg).to.equal('Added new Pivotal story: ID=27');
+    expect(response.body.msg).to.equal('Added new Pivotal story: ID=13');
 
     return response;
   });

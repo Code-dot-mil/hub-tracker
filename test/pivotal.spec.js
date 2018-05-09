@@ -4,6 +4,10 @@ const nock = require('nock');
 const expect = require('chai').expect;
 const app = require('../src/index.js');
 const finish = require('./pivotal-finish.json');
+const story = require('./pivotal-story.json');
+
+const PROJECT_ID = '1234';
+const OWNER_REPO = 'foo/bar';
 
 describe('pivotal webhook', () => {
 
@@ -39,20 +43,21 @@ describe('pivotal webhook', () => {
   });
 
   it('should respond with text on story update', async () => {
-    // nock('https://api.github.com')
-    //   .post('/repos/dod-ccpo/at-at/issues')
-    //   .reply(200, {
-    //     id: 13,
-    //     state: 'open',
-    //     title: creation.changes[0].new_values.name,
-    //     body: creation.changes[0].new_values.description,
-    //     user: {
-    //       id: 27,
-    //       login: 'octocat'
-    //     },
-    //     created_at: '2018-04-10T13:33:48Z',
-    //     updated_at: '2018-04-10T13:33:48Z'
-    //   });
+    nock('https://www.pivotaltracker.com')
+      .get(`/services/v5/projects/${PROJECT_ID}/stories/13`)
+      .reply(200, story);
+
+    nock('https://api.github.com')
+      .post(`/repos/${OWNER_REPO}/issues/27/comments`)
+      .reply(200, {
+        id: 27
+      });
+    nock('https://api.github.com')
+      .patch(`/repos/${OWNER_REPO}/issues/27`)
+      .reply(200, {
+        id: 27,
+        state: 'closed'
+      });
 
     const response = await request
       .post('/pivotal')
@@ -61,7 +66,7 @@ describe('pivotal webhook', () => {
     expect(response.status).to.equal(200);
     expect(response.type).to.equal('application/json');
     expect(response.body).to.be.a('object');
-    expect(response.body.msg).to.equal('GH issue commented and closed: ID=???');
+    expect(response.body.msg).to.equal('GH issue commented and closed: ID=27');
 
     return response;
   });

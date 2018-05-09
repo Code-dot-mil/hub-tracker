@@ -60,52 +60,49 @@ const handlers = {
     if (update.new_values.current_state && update.new_values.current_state === 'finished') {
       console.log(`Closing GH issue for PT story ${update.id}`);
 
-      // TODO: remove this... for now we'll just log the event.
-      return `GH issue commented and closed: ID=???`;
+      const ptStory = await request({
+        method: 'GET',
+        headers: {
+          'User-Agent': 'hub-tracker',
+          'X-TrackerToken': API_TOKEN,
+          'Content-Type': 'application/json'
+        },
+        uri: `https://www.pivotaltracker.com/services/v5/projects/${PROJECT_ID}/stories/${update.id}`,
+        json: true
+      });
 
-      // const ptStory = await request({
-      //   method: 'GET',
-      //   headers: {
-      //     'User-Agent': 'hub-tracker',
-      //     'X-TrackerToken': API_TOKEN,
-      //     'Content-Type': 'application/json'
-      //   },
-      //   uri: `https://www.pivotaltracker.com/services/v5/projects/${PROJECT_ID}/stories/${update.id}`,
-      //   json: true
-      // });
-      //
-      // const ghIssueId = ptStory.description.match(/\[GH \[#([0-9]+)\]/);
-      // if (ghIssueId) {
-      //   const ghIssueComment = await request({
-      //     method: 'POST',
-      //     headers: {
-      //       'User-Agent': 'hub-tracker',
-      //       Authorization: `token ${OAUTH_TOKEN}`
-      //     },
-      //     uri: `https://api.github.com/repos/${OWNER_REPO}/issues/${ghIssueId[1]}/comments`,
-      //     body: {
-      //       body: `Issue marked complete in Pivotal Tracker [#${update.id}]`
-      //     },
-      //     json: true
-      //   });
-      //
-      //   const ghIssueClose = await request({
-      //     method: 'PATCH',
-      //     headers: {
-      //       'User-Agent': 'hub-tracker',
-      //       Authorization: `token ${OAUTH_TOKEN}`
-      //     },
-      //     uri: `https://api.github.com/repos/${OWNER_REPO}/issues/${ghIssueId[1]}/`,
-      //     body: {
-      //       state: 'closed'
-      //     },
-      //     json: true
-      //   });
-      //
-      //   return `GH issue commented and closed: ID=${ghIssueId[1]}`;
-      // } else {
-      //   return `Story has no GH issue associated`;
-      // }
+      const ghIssueId = ptStory.description.match(/\[GH \[#([0-9]+)\]/);
+      if (ghIssueId) {
+        await request({
+          method: 'POST',
+          headers: {
+            'User-Agent': 'hub-tracker',
+            Authorization: `token ${OAUTH_TOKEN}`
+          },
+          uri: `https://api.github.com/repos/${OWNER_REPO}/issues/${ghIssueId[1]}/comments`,
+          body: {
+            body: `Issue marked complete in Pivotal Tracker [#${update.id}]`
+          },
+          json: true
+        });
+
+        await request({
+          method: 'PATCH',
+          headers: {
+            'User-Agent': 'hub-tracker',
+            Authorization: `token ${OAUTH_TOKEN}`
+          },
+          uri: `https://api.github.com/repos/${OWNER_REPO}/issues/${ghIssueId[1]}`,
+          body: {
+            state: 'closed'
+          },
+          json: true
+        });
+
+        return `GH issue commented and closed: ID=${ghIssueId[1]}`;
+      } else {
+        return `Story has no GH issue associated`;
+      }
     }
 
     return null;
