@@ -4,7 +4,7 @@
   "description": "A simple sync between Pivotal Tracker and GitHub issues",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha ./test/**/*.spec.js"
+    "test": "GH_OAUTH_TOKEN=\"0987654321\" PT_API_TOKEN=\"1234567890\" GH_OWNER_REPO=\"foo/bar\" PT_PROJECT_ID=\"1234\" mocha ./test/**/*.spec.js"
   },
   "repository": {
     "type": "git",
